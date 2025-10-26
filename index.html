@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rock Paper Scissors</title>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+<div class="container mx-auto">
+  <div class="flex justify-center items-center min-h-screen">
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-md" x-data="rpsGame()">
+      <img src="img/Rock-paper-scissors.jpg" />
+      <h1 class="text-2xl font-bold mb-6 text-center">Rock, Paper, Scissors</h1>
+
+      <!-- Choices -->
+      <div class="flex justify-center space-x-4">
+        <button @click="play('rock')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex flex-col items-center">
+          <img src="img/rock.png" alt="Rock" class="w-16 h-16 object-cover rounded mb-1">
+          Rock
+        </button>
+        <button @click="play('paper')" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 flex flex-col items-center">
+          <img src="img/paper.png" alt="Paper" class="w-16 h-16 object-cover rounded mb-1">
+          Paper
+        </button>
+        <button @click="play('scissors')" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 flex flex-col items-center">
+          <img src="img/scissors.png" alt="Scissors" class="w-16 h-16 object-cover rounded mb-1">
+          Scissors
+        </button>
+      </div>
+
+      <!-- Result Display -->
+      <div class="text-center mt-6">
+        <div class="flex justify-around items-center mb-4">
+          <div>
+            <p class="font-semibold mb-1">Player</p>
+            <template x-if="playerChoice">
+              <img :src="'img/' + playerChoice + '.png'" :alt="playerChoice" class="w-20 h-20 object-cover rounded border">
+            </template>
+          </div>
+
+          <div>
+            <p class="font-semibold mb-1">Computer</p>
+            <template x-if="computerChoice">
+              <img :src="'img/' + computerChoice + '.png'" :alt="computerChoice" class="w-20 h-20 object-cover rounded border">
+            </template>
+          </div>
+        </div>
+
+        <p class="text-xl font-bold mt-4" x-text="result"></p>
+
+        <!-- Scoreboard -->
+        <div class="mt-6 flex justify-center space-x-6 text-lg">
+          <p>Player Wins: <span x-text="playerScore"></span></p>
+          <p>Computer Wins: <span x-text="computerScore"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function rpsGame() {
+  return {
+    choices: ['rock', 'paper', 'scissors'],
+    playerChoice: null,
+    computerChoice: null,
+    result: '',
+    playerScore: 0,
+    computerScore: 0,
+
+    play(choice) {
+      this.playerChoice = choice;
+      this.computerChoice = this.choices[Math.floor(Math.random() * this.choices.length)];
+      this.determineWinner();
+    },
+
+    determineWinner() {
+      const player = this.playerChoice;
+      const computer = this.computerChoice;
+
+      if (player === computer) {
+        this.result = "It's a draw!";
+      } else if (
+        (player === 'rock' && computer === 'scissors') ||
+        (player === 'paper' && computer === 'rock') ||
+        (player === 'scissors' && computer === 'paper')
+      ) {
+        this.result = 'You win!';
+        this.playerScore++;
+      } else {
+        this.result = 'Computer wins!';
+        this.computerScore++;
+      }
+    }
+  };
+}
+</script>
+
+</body>
+</html>
