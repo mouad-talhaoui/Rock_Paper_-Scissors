@@ -57,10 +57,56 @@
           <p>Computer Wins: <span x-text="computerScore"></span></p>
         </div>
       </div>
+
+      <hr>
+<div class="bg-white p-8 rounded-lg shadow-lg w-80 text-center">            <h1 class="text-2xl font-bold mb-4 text-gray-800">Number Guessing</h1>
+    <div id="numberToGuess" class="text-gray-600 mb-4">
+      Guess a number between <span class="font-semibold">1</span> and <span class="font-semibold">100</span>
     </div>
+    <input
+      type="number"
+      id="userGuess"
+      class="w-full border border-gray-300 rounded-md p-2 mb-4 text-center focus:outline-none focus:ring-2 focus:ring-green-500"
+      placeholder="Enter your guess"
+    />            <div id="indication"></div>
+            <button id="guessButton"       class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition duration-200 w-full"
+ onclick="makeGuess()">Guess</button>
+        </div> 
+    </div>
+    
   </div>
+ 
+  <div>
+  
 </div>
 
+<script>
+  // Generate a random number between min and max (inclusive)
+  function random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  let nb = random(1, 100);
+
+  function makeGuess() {
+    const userGuess = Number(document.getElementById("userGuess").value);
+    const indication = document.getElementById("indication");
+
+    if (!userGuess) {
+      indication.innerHTML = "Please enter a valid number!";
+      return;
+    }
+
+    if (userGuess < nb) {
+      indication.innerHTML = "Too low!";
+    } else if (userGuess > nb) {
+      indication.innerHTML = "Too high!";
+    } else {
+      indication.innerHTML = "🎉 Correct! The number was " + nb + ". Starting a new game...";
+      nb = random(1, 100); // Reset the number for a new round
+    }
+  }
+</script>
 <script>
 function rpsGame() {
   return {
